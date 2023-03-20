@@ -3,27 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Todo List</title>
-<style type="text/css">
-.strike {
-    text-decoration: line-through;
-}
-.alert {
-    border: 1px solid;
-}
-
-.alert-error {
-    background-color: #c60f13;
-    border-color: #970b0e;
-    color: white;
-}
-
-.alert-success {
-    background-color: #5da423;
-    border-color: #457a1a;
-    color: white;
-}
-
-</style>
+<!-スタイルシートを定義したCSSファイルを読み込む。 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/app/css/styles.css" type="text/css">
 </head>
 <body>
     <h1>Todo List</h1>
@@ -52,8 +33,31 @@
                         </c:when>
                         <c:otherwise>
                             ${f:h(todo.todoTitle)}
+                            <!-- TODOが未完了の場合は、TODOを完了させるためのリクエストを送信するformを表示する -->
+                            <form:form
+                                action="${pageContext.request.contextPath}/todo/finish"
+                                method="post"
+                                modelAttribute="todoForm"
+                                cssClass="inline">
+                                <!-- リクエストパラメータとしてtodoIdを送信する.
+                                value属性に値を設定する場合も、 必ずf:h()関数でHTMLエスケープする -->
+                                <form:hidden path="todoId"
+                                    value="${f:h(todo.todoId)}" />
+                                <form:button>Finish</form:button>
+                            </form:form>
                          </c:otherwise>
-                    </c:choose></li>
+                    </c:choose>
+                    <!--削除処理用のform -->
+                    <form:form
+                        action="${pageContext.request.contextPath}/todo/delete"
+                        method="post" modelAttribute="todoForm"
+                        cssClass="inline">
+                        <!-- リクエストパラメータとしてtodoIdを送信 -->
+                        <form:hidden path="todoId"
+                            value="${f:h(todo.todoId)}" />
+                        <form:button>Delete</form:button>
+                    </form:form>                    
+                  </li>
             </c:forEach>
         </ul>
     </div>

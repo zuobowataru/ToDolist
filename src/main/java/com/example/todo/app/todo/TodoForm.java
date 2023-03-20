@@ -7,17 +7,20 @@ import javax.validation.constraints.Size;
 
 public class TodoForm implements Serializable {
 
-    // (1)
+    // 入力チェックルールをグループ化するためのインタフェースを作成
     public static interface TodoCreate {
     };
 
     public static interface TodoFinish {
     };
+    //	    削除処理用の入力チェック
+    public static interface TodoDelete {
+    }
 
 	private static final long serialVersionUID = 1L;
 
-    // (2)
-    @NotNull(groups = { TodoFinish.class })
+    //todoIdを使って削除、終了をする
+    @NotNull(groups = { TodoFinish.class, TodoDelete.class })
     private String todoId;
 
     // (3)

@@ -16,17 +16,17 @@ import org.terasoluna.gfw.common.message.ResultMessages;
 import com.example.todo.domain.model.Todo;
 import com.example.todo.domain.repository.todo.TodoRepository;
 
-@Service// (1)
-@Transactional // (2)
+@Service
+@Transactional 
 public class TodoServiceImpl implements TodoService {
 
     private static final long MAX_UNFINISHED_COUNT = 5;
 
-    @Inject// (3)
+    @Inject// TodoRepositoryの実装をインジェクション
     TodoRepository todoRepository;
 
     @Override
-    @Transactional(readOnly = true) // (4)
+    @Transactional(readOnly = true) // 参照のみ行う処理に関しては、readOnly=trueをつける。の最適化が行われ
     public Collection<Todo> findAll() {
         return todoRepository.findAll();
     }
