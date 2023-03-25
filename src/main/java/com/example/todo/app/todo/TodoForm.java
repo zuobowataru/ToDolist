@@ -44,4 +44,24 @@ public class TodoForm implements Serializable {
         this.todoTitle = todoTitle;
     }
 
+    // 追加分
+ 	private long viewcount;
+	public long getViewcount() {
+		return viewcount;
+	}
+
+	public void setViewcount(long viewcount) {
+		this.viewcount = viewcount;
+	}
+
+	public long getAllcount() {
+		return allcount;
+	}
+
+	public void setAllcount(long allcount) {
+		this.allcount = allcount;
+	}
+
+	private long allcount;
+    
 }

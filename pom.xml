@@ -184,8 +184,27 @@
 <!--            <scope>runtime</scope> -->
 <!--        </dependency> -->
         <!-- == End Database == -->
-
-        <!-- == Begin Unit Test == -->
+  <!-- == Begin Thymeleaf == -->
+  <!-- (1) -->
+            <dependency>
+             <groupId>org.thymeleaf</groupId>
+             <artifactId>thymeleaf</artifactId>
+           </dependency>
+  <!-- (2) -->
+           <dependency>
+             <groupId>org.thymeleaf</groupId>
+             <artifactId>thymeleaf-spring5</artifactId>
+           </dependency>
+  <!-- (3) -->
+           <dependency>
+             <groupId>org.thymeleaf.extras</groupId>
+             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+           </dependency>
+  <!-- (4) -->
+           <dependency>
+             <groupId>org.thymeleaf.extras</groupId>
+             <artifactId>thymeleaf-extras-java8time</artifactId>
+           </dependency>        <!-- == Begin Unit Test == -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

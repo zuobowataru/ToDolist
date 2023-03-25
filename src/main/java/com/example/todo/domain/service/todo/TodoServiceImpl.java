@@ -95,4 +95,18 @@ public class TodoServiceImpl implements TodoService {
             return new ResourceNotFoundException(messages);
         });
     }
+    // 追加分
+    @Override
+    @Transactional(readOnly = true) 
+	public Todo findView(){
+    	Todo todo = new Todo(); 
+    	long viewCount = todoRepository.findView();
+    	long unfinishedCount = todoRepository.countByFinished(false);
+    	
+    	todo.setViewcount(viewCount);   	
+    	todo.setAllcount(unfinishedCount);
+    	return todo;
+    }
+    
 }
+

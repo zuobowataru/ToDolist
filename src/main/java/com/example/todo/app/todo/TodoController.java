@@ -35,24 +35,34 @@ public class TodoController {
     @Inject
     Mapper beanMapper;    
     
-    @ModelAttribute // (2)
+    @ModelAttribute // FORMの初期化
     public TodoForm setUpForm() {
         TodoForm form = new TodoForm();
         return form;
     }
     
-    @GetMapping("list") // (3)
+
+    
+    @GetMapping("list") // todo/list　パスにGETでリクエストした際に、一覧画面表示が実行。 @GetMappingで画面表示
     public String list(Model model) {
         Collection<Todo> todos = todoService.findAll();
-        model.addAttribute("todos", todos); // (4)
-        return "todo/list"; // (5)
+       Todo todos2 = todoService.findView();
+        
+        model.addAttribute("todos", todos); // modelにToDoListを追加して、VIEWに渡す
+
+        // 今回追加した値を設定する
+        model.addAttribute("title", "オリジナルタイトルだよ");        
+        model.addAttribute("viewcount", todos2.getViewcount());
+        model.addAttribute("allcount", todos2.getAllcount());
+        
+        return "todo/list"; // VIEW名に"todo/list"を渡すとspringーmvc.xmlによってJSPがレンダリングされる。
     }
     
-    @PostMapping("create") // (2)
+    @PostMapping("create") // todo/create　パスにPOSTでリクエストした際に、新規作成処理が実行
     public String create(
     		@Validated({ Default.class, TodoCreate.class }) TodoForm todoForm, // グループ化した入力チェックルールを適用するため@Validated
-    		BindingResult bindingResult, // (3)   		
-            Model model, RedirectAttributes attributes) { // (4)
+    		BindingResult bindingResult, // フォームの入力チェックのため、  @Validatedを実施。入力チェック結果を 	bindingResultに格納。	
+            Model model, RedirectAttributes attributes) { // 正常完了後、リダイレクトして一覧画面表示。
 
         // (5)
         if (bindingResult.hasErrors()) {
@@ -73,6 +83,12 @@ public class TodoController {
         // (8)
         attributes.addFlashAttribute(ResultMessages.success().add(
                 ResultMessage.fromText("Created successfully!")));
+
+        // 追加関数
+//        todoService.findView(todo);
+//        model.addAttribute("viewcount", todo.getViewcount());
+//        model.addAttribute("allcount",todo.getAllcount());
+        
         return "redirect:/todo/list";
     }
     // /todo/finishというパスにPOSTメソッドを使用してリクエストされた際に、完了処理用のメソッド(finishメソッド)が実行される
@@ -81,7 +97,7 @@ public class TodoController {
             @Validated({ Default.class, TodoFinish.class }) TodoForm form, // (3)
             BindingResult bindingResult, Model model,
             RedirectAttributes attributes) {
-        // (4)
+        // 入力エラーがあった場合、一覧画面に戻る。
         if (bindingResult.hasErrors()) {
             return list(model);
         }
@@ -89,12 +105,12 @@ public class TodoController {
         try {
             todoService.finish(form.getTodoId());
         } catch (BusinessException e) {
-            // (5)
+            // BusinessExceptionが発生した場合は、結果メッセージをModelに追加して、一覧画面に戻る。
             model.addAttribute(e.getResultMessages());
             return list(model);
         }
 
-        // (6)
+        // 結果メッセージをflashスコープに追加して、一覧画面でリダイレクトする。
         attributes.addFlashAttribute(ResultMessages.success().add(
                 ResultMessage.fromText("Finished successfully!")));
         return "redirect:/todo/list";

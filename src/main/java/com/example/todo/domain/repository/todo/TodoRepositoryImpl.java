@@ -50,5 +50,18 @@ public class TodoRepositoryImpl implements TodoRepository {
         }
         return count;
     }
+    @Override
+    public long findView() {
+
+    	long count = 0;
+        for (Todo todo : TODO_MAP.values()) {
+                        count++;
+            
+        }
+        return count;       	
+    	
+   
+    }
+  
     
 }

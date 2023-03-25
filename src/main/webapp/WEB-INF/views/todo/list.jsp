@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Todo List</title>
+<title th:text="${title}">${title}</title>
 <!-スタイルシートを定義したCSSファイルを読み込む。 -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/app/css/styles.css" type="text/css">
 </head>
@@ -61,5 +61,23 @@
             </c:forEach>
         </ul>
     </div>
+    <table border="1">
+         <thead>
+    	<tr valign="middle">    	
+        <th>表示件数</th>
+        <th>全件</th>
+		</tr>
+	</thead>
+    <tbody>
+      <tr valign="middle">
+ 		<td>${viewcount}</td>
+		<td>${allcount}</td>
+       </tr>
+    </tbody>
+	</table>
+    <b>当サイトの内容、テキスト、画像等の無断転載・無断使用を固く禁じます。<br>
+    また、まとめサイト等への引用を厳禁致します。<br>
+    お問い合わせはメールでご連絡をお願い致します。</b><br>
+    
 </body>
 </html>

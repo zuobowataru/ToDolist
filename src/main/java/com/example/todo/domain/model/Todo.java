@@ -3,6 +3,7 @@ package com.example.todo.domain.model;
 import java.io.Serializable;
 import java.util.Date;
 
+// JPAのエンティティである@Entityアノテーションをつける
 public class Todo implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -49,5 +50,25 @@ public class Todo implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	// 追加分
+ 	private long viewcount;
+	private long allcount;
+	
+	public long getViewcount() {
+		return viewcount;
+	}
 
+	public void setViewcount(long viewCount2) {
+		this.viewcount = viewCount2;
+	}
+
+	public long getAllcount() {
+		return allcount;
+	}
+
+	public void setAllcount(long allcount) {
+		this.allcount = allcount;
+	}
+
+	
  }

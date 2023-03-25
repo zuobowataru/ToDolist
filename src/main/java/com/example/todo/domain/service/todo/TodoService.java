@@ -12,4 +12,8 @@ public interface TodoService {
     Todo finish(String todoId);
 
     void delete(String todoId);
+
+    // 追加分
+    Todo findView();
+    
 }

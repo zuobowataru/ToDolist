@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- (1) -->
+<!-- mapper要素のnamespace属性に、Repositoryインタフェースの完全修飾クラス名(FQCN)を指定する。 -->
 <mapper namespace="com.example.todo.domain.repository.todo.TodoRepository">
 
-    <!-- (2) -->
+    <!-- <resultMap>要素に、検索結果(ResultSet)とJavaBeanのマッピング定義を行う -->
     <resultMap id="todoResultMap" type="Todo">
         <id property="todoId" column="todo_id" />
         <result property="todoTitle" column="todo_title" />
@@ -13,7 +13,7 @@
         <result property="createdAt" column="created_at" />
     </resultMap>
 
-    <!-- (3) -->
+    <!-- todoId(PK)が一致するレコードを1件取得するSQLを実装する。resultMap属性には、適用するマッピング定義のIDを指定 -->
     <select id="findById" parameterType="String" resultMap="todoResultMap">
     <![CDATA[
         SELECT
@@ -28,7 +28,7 @@
     ]]>
     </select>
 
-    <!-- (4) -->
+    <!-- 全レコードを取得するSQLを実装している。 -->
     <select id="findAll" resultMap="todoResultMap">
     <![CDATA[
         SELECT
@@ -41,7 +41,7 @@
     ]]>
     </select>
 
-    <!-- (5) -->
+    <!-- 引数に指定されたTodoオブジェクトを挿入するSQLを実装する -->
     <insert id="create" parameterType="Todo">
     <![CDATA[
         INSERT INTO todo
@@ -61,7 +61,7 @@
     ]]>
     </insert>
 
-    <!-- (6) -->
+    <!-- 引数に指定されたTodoオブジェクトを更新する -->
     <update id="update" parameterType="Todo">
     <![CDATA[
         UPDATE todo
@@ -74,7 +74,7 @@
     ]]>
     </update>
 
-    <!-- (7) -->
+    <!-- 引数に指定されたTodoオブジェクトを削除する-->
     <delete id="delete" parameterType="Todo">
     <![CDATA[
         DELETE FROM
@@ -84,7 +84,7 @@
     ]]>
     </delete>
 
-    <!-- (8) -->
+    <!-- 引数に指定されたfinishedに一致するTodoの件数を取得する -->
     <select id="countByFinished" parameterType="Boolean"
         resultType="Long">
     <![CDATA[
@@ -97,4 +97,15 @@
     ]]>
     </select>
 
+    <!-- 追加 -->
+    <select id="findView" parameterType="Boolean"
+        resultType="Long">
+    <![CDATA[
+        SELECT
+            COUNT(*)
+        FROM
+            todo
+    ]]>
+    </select>
+    
 </mapper>
