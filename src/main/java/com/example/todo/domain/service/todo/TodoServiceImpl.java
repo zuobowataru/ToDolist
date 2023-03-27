@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
 import org.terasoluna.gfw.common.message.ResultMessage;
 import org.terasoluna.gfw.common.message.ResultMessages;
+import org.terasoluna.gfw.common.sequencer.Sequencer;
 
 import com.example.todo.domain.model.Todo;
 import com.example.todo.domain.repository.todo.TodoRepository;
@@ -20,6 +22,10 @@ import com.example.todo.domain.repository.todo.TodoRepository;
 @Transactional 
 public class TodoServiceImpl implements TodoService {
 
+	@Inject
+	@Named("articleIdSequencer") // (2)
+	private Sequencer<String> articleIdSequencer;	
+	
     private static final long MAX_UNFINISHED_COUNT = 5;
 
     @Inject// TodoRepositoryの実装をインジェクション
@@ -44,8 +50,9 @@ public class TodoServiceImpl implements TodoService {
             throw new BusinessException(messages);
         }
 
-        // (7)
-        String todoId = UUID.randomUUID().toString();
+        // シーケンス番号を使用 	Sequencer#getNext()メソッドを呼び出し
+        String articleId = articleIdSequencer.getNext(); // (3)
+        String todoId = articleId;
         Date createdAt = new Date();
 
         todo.setTodoId(todoId);
