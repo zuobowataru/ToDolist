@@ -45,23 +45,33 @@ public class TodoForm implements Serializable {
     }
 
     // 追加分
- 	private long viewcount;
-	public long getViewcount() {
-		return viewcount;
-	}
-
-	public void setViewcount(long viewcount) {
-		this.viewcount = viewcount;
-	}
-
-	public long getAllcount() {
-		return allcount;
-	}
-
-	public void setAllcount(long allcount) {
-		this.allcount = allcount;
-	}
-
-	private long allcount;
+    private String todoGroup;
+	private String contents;
+    private String timelimit;
     
+    public String getTodoGroup() {
+		return todoGroup;
+	}
+
+	public void setTodoGroup(String todoGroup) {
+		this.todoGroup = todoGroup;
+	}
+
+	public String getContents() {
+		return contents;
+	}
+
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
+
+	public String getTimelimit() {
+		return timelimit;
+	}
+
+	public void setTimelimit(String timelimit) {
+		this.timelimit = timelimit;
+	}
+
+
 }

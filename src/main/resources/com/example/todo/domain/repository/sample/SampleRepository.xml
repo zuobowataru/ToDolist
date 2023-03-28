@@ -9,18 +9,19 @@
 
     <resultMap id="todoResultMap" type="Todo">
         <id property="todoId" column="todo_id" />
+        <result property="todoGroup" column="todo_group" />        
         <result property="todoTitle" column="todo_title" />
         <result property="finished" column="finished" />
-        <result property="createdAt" column="created_at" />
+        <result property="contents" column="contents" />      
+        <result property="timelimit" column="timelimit" />
+        <result property="createdAt" column="created_at" />      
+        
     </resultMap>
 
     <select id="findOne" parameterType="string" resultMap="todoResultMap">
     <![CDATA[
         SELECT
-            todo_id, 
-            todo_title, 
-            finished, 
-            created_at 
+        *
         FROM
             todo 
         WHERE
@@ -31,10 +32,7 @@
     <select id="findAll" resultMap="todoResultMap">
     <![CDATA[
         SELECT
-            todo_id, 
-            todo_title, 
-            finished, 
-            created_at 
+        *
         FROM
             todo 
     ]]>
@@ -45,15 +43,20 @@
         INSERT INTO todo
         (
             todo_id, 
+            todo_group,            
             todo_title, 
             finished, 
+            contents,
+            timelimit,
             created_at
         ) 
         VALUES
         (
-            #{todoId}, 
+            #{todoId},
+            #{todoGroup}, 
             #{todoTitle}, 
-            #{finished}, 
+            #{finished},
+            #{timelimit},
             #{createdAt}
         )
     ]]>
@@ -63,9 +66,11 @@
     <![CDATA[
         UPDATE
             todo 
-        SET
+        SET 
+            todo_group = #{todoGroup},
             todo_title = #{todoTitle}, 
             finished = #{finished}, 
+            timelimit = #{timelimit},
             created_at = #{createdAt} 
         WHERE
             todo_id = #{todoId}

@@ -12,13 +12,35 @@
         <!-- (1) -->
         <t:messagesPanel />
 
-        <!-- (2) -->
+        <!-- 新規作成処理用のformを表示する。action属性には新規作成処理を実行するためのURL(<contextPath>/todo/create)を指定 -->
+        <!--modelAttribute属性には、ControllerでModelに追加したFormの名前を指定 -->
+        
         <form:form
            action="${pageContext.request.contextPath}/todo/create"
             method="post" modelAttribute="todoForm">
-            <form:input path="todoTitle" /><!-- (3) -->
-            <form:errors path="todoTitle" /><!-- (4) -->
-            <form:button>Create Todo</form:button>
+         <table>
+         <tr>
+         　　　<th>グループ</th>
+            <td><form:input path="todoGroup" /></td>
+         </tr>
+         <tr>
+         　　　<th>タイトル</th>         
+            <td><form:input path="todoTitle" /><form:errors path="todoTitle" /><!--入力エラーがあった場合に表示する --></td><!-- modelAttribute属性に指定したFormのプロパティ名と、path属性の値が一致 -->
+         </tr>
+         <tr>
+         　　　<th>内容</th>                              
+            <td><form:input path="contents" /></td>
+         </tr>
+         <tr>
+         　　　<th>リミット</th>                  
+            <td><form:input path="timelimit" /></td>           
+         </tr>
+          <tr>
+          <td colspan="1">
+            <form:button>作成</form:button>
+          </td>  
+         </tr>
+         <table>
         </form:form>
     </div>
     <hr />
@@ -61,11 +83,11 @@
             </c:forEach>
         </ul>
     </div>
-    <table border="1">
+    <table border="1" width="30%">
          <thead>
     	<tr valign="middle">    	
-        <th>表示件数</th>
         <th>全件</th>
+        <th>未完了件数</th>
 		</tr>
 	</thead>
     <tbody>

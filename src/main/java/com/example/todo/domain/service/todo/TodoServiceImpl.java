@@ -2,11 +2,11 @@ package com.example.todo.domain.service.todo;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.BusinessException;
@@ -26,8 +26,11 @@ public class TodoServiceImpl implements TodoService {
 	@Named("articleIdSequencer") // (2)
 	private Sequencer<String> articleIdSequencer;	
 	
-    private static final long MAX_UNFINISHED_COUNT = 5;
+ //   private static final long MAX_UNFINISHED_COUNT = 5;
 
+   @Value("${MAX.UNFINISHED.COUNT}")  // (1)
+    private long UNFINISHED_COUNT;    
+    
     @Inject// TodoRepositoryの実装をインジェクション
     TodoRepository todoRepository;
 
@@ -40,12 +43,11 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public Todo create(Todo todo) {
         long unfinishedCount = todoRepository.countByFinished(false);
-        if (unfinishedCount >= MAX_UNFINISHED_COUNT) {
+        if (unfinishedCount >= UNFINISHED_COUNT) {
             // (5)
-            ResultMessages messages = ResultMessages.error();
+            ResultMessages messages = ResultMessages.error().add("e.xx.fw.0001");
             messages.add(ResultMessage
-                    .fromText("[E001] The count of un-finished Todo must not be over "
-                            + MAX_UNFINISHED_COUNT + "."));
+                    .fromText(UNFINISHED_COUNT + "."));
             // (6)
             throw new BusinessException(messages);
         }
@@ -54,7 +56,7 @@ public class TodoServiceImpl implements TodoService {
         String articleId = articleIdSequencer.getNext(); // (3)
         String todoId = articleId;
         Date createdAt = new Date();
-
+       
         todo.setTodoId(todoId);
         todo.setCreatedAt(createdAt);
         todo.setFinished(false);

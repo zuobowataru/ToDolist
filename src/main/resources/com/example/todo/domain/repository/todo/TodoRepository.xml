@@ -8,19 +8,19 @@
     <!-- <resultMap>要素に、検索結果(ResultSet)とJavaBeanのマッピング定義を行う -->
     <resultMap id="todoResultMap" type="Todo">
         <id property="todoId" column="todo_id" />
+        <result property="todoGroup" column="todo_group" />        
         <result property="todoTitle" column="todo_title" />
         <result property="finished" column="finished" />
-        <result property="createdAt" column="created_at" />
+        <result property="contents" column="contents" />
+        <result property="timelimit" column="timelimit" />               
+        <result property="createdAt" column="created_at" />     
     </resultMap>
 
     <!-- todoId(PK)が一致するレコードを1件取得するSQLを実装する。resultMap属性には、適用するマッピング定義のIDを指定 -->
     <select id="findById" parameterType="String" resultMap="todoResultMap">
     <![CDATA[
         SELECT
-            todo_id,
-            todo_title,
-            finished,
-            created_at
+        *
         FROM
             todo
         WHERE
@@ -32,10 +32,7 @@
     <select id="findAll" resultMap="todoResultMap">
     <![CDATA[
         SELECT
-            todo_id,
-            todo_title,
-            finished,
-            created_at
+        *
         FROM
             todo
     ]]>
@@ -47,15 +44,21 @@
         INSERT INTO todo
         (
             todo_id,
+            todo_group,
             todo_title,
             finished,
-            created_at
+            contents,
+            timelimit,
+            created_at          
         )
         VALUES
         (
             #{todoId},
+            #{todoGroup},
             #{todoTitle},
             #{finished},
+            #{contents},            
+            #{timelimit},
             #{createdAt}
         )
     ]]>
@@ -66,8 +69,11 @@
     <![CDATA[
         UPDATE todo
         SET
+            todo_group = #{todoGroup},
             todo_title = #{todoTitle},
             finished = #{finished},
+            contents = #{contents},
+            timelimit = #{timelimit},
             created_at = #{createdAt}
         WHERE
             todo_id = #{todoId}

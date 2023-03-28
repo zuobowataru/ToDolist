@@ -84,11 +84,7 @@ public class TodoController {
         attributes.addFlashAttribute(ResultMessages.success().add(
                 ResultMessage.fromText("Created successfully!")));
 
-        // 追加関数
-//        todoService.findView(todo);
-//        model.addAttribute("viewcount", todo.getViewcount());
-//        model.addAttribute("allcount",todo.getAllcount());
-        
+     
         return "redirect:/todo/list";
     }
     // /todo/finishというパスにPOSTメソッドを使用してリクエストされた際に、完了処理用のメソッド(finishメソッド)が実行される

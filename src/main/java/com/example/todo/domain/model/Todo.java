@@ -9,9 +9,13 @@ public class Todo implements Serializable {
 
     private String todoId;
 
+	private String todoGroup;
     private String todoTitle;
 
     private boolean finished;
+    
+	private String contents;
+    private Date timelimit;
 
     private Date createdAt;
 
@@ -26,7 +30,14 @@ public class Todo implements Serializable {
 	public String getTodoTitle() {
 		return todoTitle;
 	}
+    public String getTodoGroup() {
+		return todoGroup;
+	}
 
+	public void setTodoGroup(String todoGroup) {
+		this.todoGroup = todoGroup;
+	}
+	
 	public void setTodoTitle(String todoTitle) {
 		this.todoTitle = todoTitle;
 	}
@@ -45,6 +56,21 @@ public class Todo implements Serializable {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	public String getContents() {
+		return contents;
+	}
+
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
+
+	public Date getTimelimit() {
+		return timelimit;
+	}
+
+	public void setTimelimit(Date timelimit) {
+		this.timelimit = timelimit;
 	}
 
 	public static long getSerialversionuid() {
