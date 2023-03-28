@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,11 +24,13 @@ import com.example.todo.domain.repository.todo.TodoRepository;
 @Transactional 
 public class TodoServiceImpl implements TodoService {
 
+    private static final Logger logger = LoggerFactory
+            .getLogger(TodoServiceImpl.class);   // (1)
+
 	@Inject
 	@Named("articleIdSequencer") // (2)
 	private Sequencer<String> articleIdSequencer;	
 	
- //   private static final long MAX_UNFINISHED_COUNT = 5;
 
    @Value("${MAX.UNFINISHED.COUNT}")  // (1)
     private long UNFINISHED_COUNT;    
@@ -37,11 +41,19 @@ public class TodoServiceImpl implements TodoService {
     @Override
     @Transactional(readOnly = true) // 参照のみ行う処理に関しては、readOnly=trueをつける。の最適化が行われ
     public Collection<Todo> findAll() {
-        return todoRepository.findAll();
+        logger.trace("findAll start."); // trace
+        logger.debug("This log is debug log."); // (3)
+        logger.info("This log is info log.");   // (4)
+        logger.warn("This log is warn log.");   // (5)
+        logger.error("This log is error log."); // (6)
+
+    	return todoRepository.findAll();
     }
 
     @Override
     public Todo create(Todo todo) {
+        logger.trace("This log is trace log."); // (2)
+    	
         long unfinishedCount = todoRepository.countByFinished(false);
         if (unfinishedCount >= UNFINISHED_COUNT) {
             // (5)
@@ -71,7 +83,9 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Todo finish(String todoId) {
-        Todo todo = findOne(todoId);
+        logger.trace("finish start."); // trace
+
+    	Todo todo = findOne(todoId);
         if (todo.isFinished()) {
             ResultMessages messages = ResultMessages.error();
             messages.add(ResultMessage
